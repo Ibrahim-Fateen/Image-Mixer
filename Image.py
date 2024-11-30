@@ -31,6 +31,12 @@ class Image:
     def get_phase(self):
         return np.angle(self.ft)
 
+    def changeBrightnessContrast(self, brightness, contrast):
+        # could be slow due to fft, might need redesign
+        self.image_data = self.image_data * contrast + brightness
+        self.ft = np.fft.fft2(self.image_data)
+        self.size = self.image_data.shape
+
     @staticmethod
     def from_file(file_path):
         image = PILImage.open(file_path)
