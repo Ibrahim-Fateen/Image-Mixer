@@ -2232,15 +2232,10 @@ PlotWidget {
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>200</height>
+           <height>258</height>
           </size>
          </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Shadow::Raised</enum>
-         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout"/>
         </widget>
        </item>
       </layout>

@@ -5,7 +5,8 @@ from PIL import Image as PILImage
 class Image:
     def __init__(self, image_data):
         self.image_data = image_data
-        self.ft = np.fft.fft2(image_data)
+        ft = np.fft.fft2(image_data)
+        self.ft = np.fft.fftshift(ft)
         self.size = image_data.shape
 
     def resize(self, new_size):
@@ -15,15 +16,38 @@ class Image:
         :return:
         """
         self.image_data = np.array(PILImage.fromarray(self.image_data).resize(new_size))
-        self.ft = np.fft.fft2(self.image_data)
+        ft = np.fft.fft2(self.image_data)
+        self.ft = np.fft.fftshift(ft)
         self.size = self.image_data.shape
-        pass
+
+    def get_ft_image(self, component):
+        if component == "Real":
+            data = self.get_real_part()
+        elif component == "Imaginary":
+            data = self.get_imaginary_part()
+        elif component == "Magnitude":
+            data = self.get_log_magnitude()
+        else:
+            data = self.get_phase()
+        data = self.normalize(data)
+        return data
+
+    @staticmethod
+    def normalize(data):
+        data = data - data.min()
+        data = data / data.max()
+        data = data * 255
+        data = data.astype(np.uint8)
+        return data
 
     def get_real_part(self):
         return self.ft.real
 
     def get_imaginary_part(self):
         return self.ft.imag
+
+    def get_log_magnitude(self):
+        return np.log1p(self.get_magnitude())
 
     def get_magnitude(self):
         return np.abs(self.ft)
@@ -34,7 +58,8 @@ class Image:
     def changeBrightnessContrast(self, brightness, contrast):
         # could be slow due to fft, might need redesign
         self.image_data = self.image_data * contrast + brightness
-        self.ft = np.fft.fft2(self.image_data)
+        ft = np.fft.fft2(self.image_data)
+        self.ft = np.fft.fftshift(ft)
         self.size = self.image_data.shape
 
     @staticmethod

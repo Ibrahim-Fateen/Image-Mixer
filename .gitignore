@@ -1,3 +1,6 @@
 .idea/
 .venv/
 __pycache__/
+.DS_Store
+test.py
+claude.py
