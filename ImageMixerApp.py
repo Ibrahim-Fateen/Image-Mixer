@@ -7,7 +7,7 @@ from Viewport import ViewPort
 from RegionSelect import RegionSelectManager
 
 
-class ImageMixer(QMainWindow):
+class ImageMixerApp(QMainWindow):
     def __init__(self):
         super().__init__()
 
@@ -20,7 +20,6 @@ class ImageMixer(QMainWindow):
         self.setCentralWidget(self.ui)
         self.ui.showMaximized()
         self.ui.setWindowTitle("Image Mixer")
-
 
         self.region_select_manager = RegionSelectManager()
 

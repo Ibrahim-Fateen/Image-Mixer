@@ -1,5 +1,6 @@
 import numpy as np
 from PIL import Image as PILImage
+from sympy.codegen.cnodes import static
 
 
 class Image:
@@ -70,8 +71,9 @@ class Image:
         return Image(image_data)
 
     @staticmethod
-    def from_mixer():
-        pass
+    def from_foureir_domain(ft_array):
+        inverse = np.abs(np.fft.ifft2(ft_array))
+        return Image(inverse)
 
     @staticmethod
     def placeholder_image():
