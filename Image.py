@@ -1,11 +1,11 @@
 import numpy as np
 from PIL import Image as PILImage
-from sympy.codegen.cnodes import static
 
 
 class Image:
     def __init__(self, image_data):
         self.image_data = image_data
+        self.modified_image_data = image_data.copy()
         ft = np.fft.fft2(image_data)
         self.ft = np.fft.fftshift(ft)
         self.size = image_data.shape
@@ -17,7 +17,8 @@ class Image:
         :return:
         """
         self.image_data = np.array(PILImage.fromarray(self.image_data).resize(new_size))
-        ft = np.fft.fft2(self.image_data)
+        self.modified_image_data = np.array(PILImage.fromarray(self.modified_image_data).resize(new_size))
+        ft = np.fft.fft2(self.modified_image_data)
         self.ft = np.fft.fftshift(ft)
         self.size = self.image_data.shape
 
@@ -58,10 +59,18 @@ class Image:
 
     def changeBrightnessContrast(self, brightness, contrast):
         # could be slow due to fft, might need redesign
-        self.image_data = self.image_data * contrast + brightness
-        ft = np.fft.fft2(self.image_data)
+        mean = np.mean(self.image_data)
+
+        self.modified_image_data = np.clip(
+            (self.image_data - mean) * contrast + mean + brightness,
+            0,
+            255
+        ).astype(np.uint8)
+        self.reCalcFt()
+
+    def reCalcFt(self):
+        ft = np.fft.fft2(self.modified_image_data)
         self.ft = np.fft.fftshift(ft)
-        self.size = self.image_data.shape
 
     @staticmethod
     def from_file(file_path):
