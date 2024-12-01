@@ -72,7 +72,7 @@ class Image:
 
     @staticmethod
     def from_foureir_domain(ft_array):
-        inverse = np.abs(np.fft.ifft2(ft_array))
+        inverse = Image.normalize(np.abs(np.fft.ifft2(ft_array)))
         return Image(inverse)
 
     @staticmethod

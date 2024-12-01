@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QMainWindow, QWidget
 from Image import Image
 from Viewport import ViewPort
 from RegionSelect import RegionSelectManager
+from Mixer import Mixer
 
 
 class ImageMixerApp(QMainWindow):
@@ -43,3 +44,12 @@ class ImageMixerApp(QMainWindow):
         for i, viewport_widget in enumerate(outputViewportWidgets):
             viewport_widget.layout().addWidget(self.outputViewPorts[i])
             self.outputViewPorts[i].set_image(output_image_placeholder)
+
+        mixer = Mixer([viewport.image for viewport in self.inputViewPorts])
+        output_image = mixer.mix_mag_phase([
+            {"Magnitude": 1, "Phase": 1.0},
+            {"Magnitude": 0.0, "Phase": 0.0},
+            {"Magnitude": 0.0, "Phase": 0.0},
+            {"Magnitude": 0.0, "Phase": 0.0}
+        ])
+        self.outputViewPorts[0].set_image(output_image)
