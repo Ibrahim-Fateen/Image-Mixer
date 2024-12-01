@@ -2,7 +2,6 @@ import numpy as np
 from PySide6.QtCore import Qt, QSize
 from PySide6.QtGui import QImage, QPixmap, QIcon
 from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QComboBox, QFileDialog, QPushButton
-from fastcore.xtras import image_size
 
 from Image import Image
 from RegionSelect import RegionSelect
