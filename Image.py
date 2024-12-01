@@ -72,3 +72,7 @@ class Image:
     @staticmethod
     def from_mixer():
         pass
+
+    @staticmethod
+    def placeholder_image():
+        return Image.from_file("UI/placeholder.jpg")

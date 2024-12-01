@@ -2,5 +2,6 @@
 .venv/
 __pycache__/
 .DS_Store
-test.py
+test_mix_mag_phase.py
 claude.py
+test_mix_real_imaginary.py
