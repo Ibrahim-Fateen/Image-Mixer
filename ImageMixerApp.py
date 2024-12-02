@@ -46,10 +46,5 @@ class ImageMixerApp(QMainWindow):
             self.outputViewPorts[i].set_image(output_image_placeholder)
 
         mixer = Mixer([viewport.image for viewport in self.inputViewPorts])
-        output_image = mixer.mix_mag_phase([
-            {"Magnitude": 1, "Phase": 1.0},
-            {"Magnitude": 0.0, "Phase": 0.0},
-            {"Magnitude": 0.0, "Phase": 0.0},
-            {"Magnitude": 0.0, "Phase": 0.0}
-        ])
+        output_image = Image.placeholder_image()
         self.outputViewPorts[0].set_image(output_image)
