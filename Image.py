@@ -61,6 +61,7 @@ class Image:
 
     def changeBrightnessContrast(self, brightness, contrast):
         mean = np.mean(self.image_data)
+        self.modified_ft = self.ft.copy()
         (self - mean) * contrast + mean + brightness
 
     def __add__(self, other):
@@ -81,7 +82,6 @@ class Image:
 
     def __mul__(self, other):
         self.modified_image_data = np.clip(self.image_data * other, 0, 255).astype(np.uint8)
-        # assume no clipping occurred
         self.modified_ft *= other
         return self
 
