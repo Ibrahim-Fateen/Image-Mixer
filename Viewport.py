@@ -135,6 +135,7 @@ class ViewPort(QWidget):
     def set_image(self, image):
         self.image = image
         self.image.resize(ViewPort.image_size)
-        self.update_labels()
         self.brightness = 0
         self.contrast = 1
+        self.image.changeBrightnessContrast(self.brightness, self.contrast)
+        self.update_labels()
