@@ -1,6 +1,8 @@
 .idea/
 .venv/
 __pycache__/
+bodaVenv/
+draft.py
 .DS_Store
 test_mix_mag_phase.py
 test_mix_real_imaginary.py
