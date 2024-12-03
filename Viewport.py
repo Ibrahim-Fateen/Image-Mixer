@@ -11,7 +11,7 @@ class ViewPort(QWidget):
     image_size = (220, 220)
     max_brightness = 50
     min_brightness = -50
-    brightness_step = 1
+    brightness_step = -1
     max_contrast = 2
     min_contrast = 0.1
     contrast_step = 0.1
@@ -69,8 +69,7 @@ class ViewPort(QWidget):
     def end_drag(self, event):
         if self.dragging and self.image is not None:
             self.dragging = False
-            self.image.reCalcFt()
-            self.update_ft_label()
+            self.update_labels()
 
     def drag_motion(self, event):
         if self.dragging and self.image is not None:
