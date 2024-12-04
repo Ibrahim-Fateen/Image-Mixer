@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1176</width>
-    <height>794</height>
+    <height>771</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -2161,7 +2161,7 @@ PlotWidget {
           <enum>QFrame::Shape::StyledPanel</enum>
          </property>
          <property name="frameShadow">
-          <enum>QFrame::Shadow::Raised</enum>
+          <enum>QFrame::Shadow::Sunken</enum>
          </property>
          <layout class="QGridLayout" name="gridLayout">
           <item row="2" column="1">
@@ -2248,20 +2248,33 @@ PlotWidget {
           </size>
          </property>
          <property name="frameShape">
-          <enum>QFrame::Shape::StyledPanel</enum>
+          <enum>QFrame::Shape::Panel</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Shadow::Raised</enum>
          </property>
+         <property name="lineWidth">
+          <number>4</number>
+         </property>
          <layout class="QHBoxLayout" name="mixerLayout">
           <item>
            <widget class="QGroupBox" name="groupBox">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
             <property name="title">
              <string/>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
-              <layout class="QVBoxLayout" name="ComboBoxSpace" stretch="0,0">
+              <layout class="QVBoxLayout" name="ComboBoxSpace" stretch="0,0,0,0">
+               <item alignment="">
+                <widget class="QLabel" name="mixingComboBoxLabel">
+                 <property name="text">
+                  <string>Mixing Mode</string>
+                 </property>
+                </widget>
+               </item>
                <item alignment="">
                 <widget class="QComboBox" name="compsSelectionComboBox">
                  <property name="sizePolicy">
@@ -2271,18 +2284,25 @@ PlotWidget {
                   </sizepolicy>
                  </property>
                  <property name="placeholderText">
-                  <string>Select Mixing Components</string>
+                  <string/>
                  </property>
                  <item>
                   <property name="text">
-                   <string>Signal View : Magnitude and Phase</string>
+                   <string>Magnitude and Phase</string>
                   </property>
                  </item>
                  <item>
                   <property name="text">
-                   <string>Complex View : Real and Imaginary</string>
+                   <string>Real and Imaginary</string>
                   </property>
                  </item>
+                </widget>
+               </item>
+               <item alignment="">
+                <widget class="QLabel" name="outputComboBoxLabel">
+                 <property name="text">
+                  <string>Selected Output Port</string>
+                 </property>
                 </widget>
                </item>
                <item alignment="">
@@ -2294,7 +2314,7 @@ PlotWidget {
                   </sizepolicy>
                  </property>
                  <property name="placeholderText">
-                  <string>Select Output View Port</string>
+                  <string/>
                  </property>
                  <item>
                   <property name="text">
@@ -2311,84 +2331,71 @@ PlotWidget {
               </layout>
              </item>
              <item>
-              <layout class="QVBoxLayout" name="slidersSpace" stretch="0,0,0,0">
+              <layout class="QVBoxLayout" name="slidersSpace" stretch="1,7,7,7,7,1">
+               <property name="spacing">
+                <number>15</number>
+               </property>
+               <item>
+                <layout class="QHBoxLayout" name="slidersLabelLayout" stretch="0,0">
+                 <item>
+                  <widget class="QLabel" name="leftSlidersLabel">
+                   <property name="text">
+                    <string>Magnitude</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="rightSlidersLabel">
+                   <property name="text">
+                    <string>Phase</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
                <item>
                 <layout class="QHBoxLayout" name="image1SlidersLayout" stretch="0,0,0">
                  <property name="spacing">
-                  <number>0</number>
+                  <number>6</number>
                  </property>
                  <item>
-                  <layout class="QVBoxLayout" name="image1SlidersLabelLayout">
-                   <item>
-                    <widget class="QLabel" name="image1SlidersLabel">
-                     <property name="text">
-                      <string>image1</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignmentFlag::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
+                  <widget class="QLabel" name="image1SlidersLabel">
+                   <property name="text">
+                    <string>image1</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
+                   </property>
+                  </widget>
                  </item>
                  <item>
-                  <layout class="QVBoxLayout" name="image1LeftSLiderLayout">
-                   <item>
-                    <widget class="QLabel" name="imageLeftSliderLabel">
-                     <property name="text">
-                      <string>Magnitude</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignmentFlag::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSlider" name="horizontalSlider">
-                     <property name="orientation">
-                      <enum>Qt::Orientation::Horizontal</enum>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="image1LeftSliderAxis">
-                     <property name="text">
-                      <string>0      5     10     15     20     25     30     35     40     45     50     55     60     65     70     75     </string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
+                  <widget class="QSlider" name="image1LeftSlider">
+                   <property name="maximum">
+                    <number>99</number>
+                   </property>
+                   <property name="orientation">
+                    <enum>Qt::Orientation::Horizontal</enum>
+                   </property>
+                   <property name="tickPosition">
+                    <enum>QSlider::TickPosition::NoTicks</enum>
+                   </property>
+                   <property name="tickInterval">
+                    <number>0</number>
+                   </property>
+                  </widget>
                  </item>
                  <item>
-                  <layout class="QVBoxLayout" name="image1RightSliderLayout">
-                   <item>
-                    <widget class="QLabel" name="image1RightSliderLabel">
-                     <property name="text">
-                      <string>Phase</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignmentFlag::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSlider" name="horizontalSlider_2">
-                     <property name="orientation">
-                      <enum>Qt::Orientation::Horizontal</enum>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_4">
-                     <property name="text">
-                      <string>0</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
+                  <widget class="QSlider" name="image1RightSlider">
+                   <property name="orientation">
+                    <enum>Qt::Orientation::Horizontal</enum>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>
@@ -2400,19 +2407,19 @@ PlotWidget {
                     <string>image2</string>
                    </property>
                    <property name="alignment">
-                    <set>Qt::AlignmentFlag::AlignJustify|Qt::AlignmentFlag::AlignVCenter</set>
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QSlider" name="horizontalSlider_4">
+                  <widget class="QSlider" name="image2LeftSlider">
                    <property name="orientation">
                     <enum>Qt::Orientation::Horizontal</enum>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QSlider" name="horizontalSlider_3">
+                  <widget class="QSlider" name="image2RightSlider">
                    <property name="orientation">
                     <enum>Qt::Orientation::Horizontal</enum>
                    </property>
@@ -2428,19 +2435,19 @@ PlotWidget {
                     <string>image3</string>
                    </property>
                    <property name="alignment">
-                    <set>Qt::AlignmentFlag::AlignJustify|Qt::AlignmentFlag::AlignVCenter</set>
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QSlider" name="horizontalSlider_6">
+                  <widget class="QSlider" name="image3RightSlider">
                    <property name="orientation">
                     <enum>Qt::Orientation::Horizontal</enum>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QSlider" name="horizontalSlider_5">
+                  <widget class="QSlider" name="image3LeftSlider">
                    <property name="orientation">
                     <enum>Qt::Orientation::Horizontal</enum>
                    </property>
@@ -2456,21 +2463,39 @@ PlotWidget {
                     <string>image4</string>
                    </property>
                    <property name="alignment">
-                    <set>Qt::AlignmentFlag::AlignJustify|Qt::AlignmentFlag::AlignVCenter</set>
+                    <set>Qt::AlignmentFlag::AlignCenter</set>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QSlider" name="horizontalSlider_8">
+                  <widget class="QSlider" name="image4LeftSlider">
                    <property name="orientation">
                     <enum>Qt::Orientation::Horizontal</enum>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QSlider" name="horizontalSlider_7">
+                  <widget class="QSlider" name="image4RightSlider">
                    <property name="orientation">
                     <enum>Qt::Orientation::Horizontal</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="slidersAxisLayout">
+                 <item>
+                  <widget class="QLabel" name="leftSlidersAxis">
+                   <property name="text">
+                    <string>              0          10          20          30          40</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="rightSlidersAxis">
+                   <property name="text">
+                    <string>      0          10          20          30          40</string>
                    </property>
                   </widget>
                  </item>
