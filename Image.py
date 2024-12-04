@@ -8,6 +8,7 @@ class Image:
         self.modified_image_data = image_data.copy()
         ft = np.fft.fft2(image_data)
         self.ft = np.fft.fftshift(ft)
+        self.modified_ft = self.ft.copy()
         self.size = image_data.shape
 
     def resize(self, new_size):
@@ -17,9 +18,10 @@ class Image:
         :return:
         """
         self.image_data = np.array(PILImage.fromarray(self.image_data).resize(new_size))
-        self.modified_image_data = np.array(PILImage.fromarray(self.modified_image_data).resize(new_size))
+        self.modified_image_data = self.image_data.copy()
         ft = np.fft.fft2(self.modified_image_data)
         self.ft = np.fft.fftshift(ft)
+        self.modified_ft = self.ft.copy()
         self.size = self.image_data.shape
 
     def get_ft_image(self, component):
@@ -43,34 +45,45 @@ class Image:
         return data
 
     def get_real_part(self):
-        return self.ft.real
+        return self.modified_ft.real
 
     def get_imaginary_part(self):
-        return self.ft.imag
+        return self.modified_ft.imag
 
     def get_log_magnitude(self):
         return np.log1p(self.get_magnitude())
 
     def get_magnitude(self):
-        return np.abs(self.ft)
+        return np.abs(self.modified_ft)
 
     def get_phase(self):
-        return np.angle(self.ft)
+        return np.angle(self.modified_ft)
 
     def changeBrightnessContrast(self, brightness, contrast):
-        # could be slow due to fft, might need redesign
         mean = np.mean(self.image_data)
+        self.modified_ft = self.ft.copy()
+        (self - mean) * contrast + mean + brightness
 
-        self.modified_image_data = np.clip(
-            (self.image_data - mean) * contrast + mean + brightness,
-            0,
-            255
-        ).astype(np.uint8)
-        self.reCalcFt()
+    def __add__(self, other):
+        self.modified_image_data = np.clip(self.image_data + other, 0, 255).astype(np.uint8)
+        # assume no clipping occurred
+        # add 2 * pi * other * delta(w)  (DC component) to the ft
+        dc_index = tuple(x // 2 for x in self.size)
+        self.modified_ft[dc_index] += 2 * np.pi * other
+        return self
 
-    def reCalcFt(self):
-        ft = np.fft.fft2(self.modified_image_data)
-        self.ft = np.fft.fftshift(ft)
+    def __sub__(self, other):
+        self.modified_image_data = np.clip(self.image_data - other, 0, 255).astype(np.uint8)
+        # assume no clipping occurred
+        # subtract 2 * pi * other * delta(w)  (DC component) to the ft
+        dc_index = tuple(x // 2 for x in self.size)
+        self.modified_ft[dc_index] -= 2 * np.pi * other
+        return self
+
+    def __mul__(self, other):
+        self.modified_image_data = np.clip(self.image_data * other, 0, 255).astype(np.uint8)
+        self.modified_ft *= other
+        return self
 
     @staticmethod
     def from_file(file_path):
