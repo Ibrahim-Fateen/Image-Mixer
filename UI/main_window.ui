@@ -2149,6 +2149,18 @@ PlotWidget {
     <item>
      <widget class="QWidget" name="verticalWidget" native="true">
       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="leftMargin">
+        <number>6</number>
+       </property>
+       <property name="topMargin">
+        <number>6</number>
+       </property>
+       <property name="rightMargin">
+        <number>6</number>
+       </property>
+       <property name="bottomMargin">
+        <number>6</number>
+       </property>
        <item>
         <widget class="QFrame" name="imageFrame">
          <property name="sizePolicy">
@@ -2352,243 +2364,342 @@ PlotWidget {
          <property name="lineWidth">
           <number>4</number>
          </property>
-         <layout class="QHBoxLayout" name="mixerLayout">
+         <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <layout class="QVBoxLayout" name="ComboBoxSpace" stretch="0,0,0,0">
+           <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
-             <widget class="QLabel" name="mixingComboBoxLabel">
-              <property name="text">
-               <string>Mixing Mode</string>
+             <layout class="QVBoxLayout" name="slidersSpace" stretch="1,7,7,7,7,1">
+              <property name="spacing">
+               <number>15</number>
               </property>
-             </widget>
+              <item>
+               <layout class="QHBoxLayout" name="slidersLabelLayout" stretch="0,0">
+                <item>
+                 <widget class="QLabel" name="leftSlidersLabel">
+                  <property name="text">
+                   <string>Magnitude</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="rightSlidersLabel">
+                  <property name="text">
+                   <string>Phase</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="image1SlidersLayout" stretch="0,0,0">
+                <property name="spacing">
+                 <number>-1</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="image1SlidersLabel">
+                  <property name="text">
+                   <string>Image 1</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="image1LeftSlider">
+                  <property name="maximum">
+                   <number>100</number>
+                  </property>
+                  <property name="value">
+                   <number>50</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Orientation::Horizontal</enum>
+                  </property>
+                  <property name="tickPosition">
+                   <enum>QSlider::TickPosition::NoTicks</enum>
+                  </property>
+                  <property name="tickInterval">
+                   <number>0</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="image1RightSlider">
+                  <property name="maximum">
+                   <number>100</number>
+                  </property>
+                  <property name="value">
+                   <number>50</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Orientation::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="image2SlidersLayout">
+                <item>
+                 <widget class="QLabel" name="image2Sliderslabel">
+                  <property name="text">
+                   <string>Image 2</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="image2LeftSlider">
+                  <property name="maximum">
+                   <number>100</number>
+                  </property>
+                  <property name="value">
+                   <number>50</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Orientation::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="image2RightSlider">
+                  <property name="maximum">
+                   <number>100</number>
+                  </property>
+                  <property name="value">
+                   <number>50</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Orientation::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="image3SlidersLayout">
+                <item>
+                 <widget class="QLabel" name="image3SlidersLabel">
+                  <property name="text">
+                   <string>Image 3</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="image3RightSlider">
+                  <property name="maximum">
+                   <number>100</number>
+                  </property>
+                  <property name="value">
+                   <number>50</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Orientation::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="image3LeftSlider">
+                  <property name="maximum">
+                   <number>100</number>
+                  </property>
+                  <property name="value">
+                   <number>50</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Orientation::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="image4SlidersLayout">
+                <item>
+                 <widget class="QLabel" name="image4SlidersLabel">
+                  <property name="text">
+                   <string>Image 4</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignmentFlag::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="image4LeftSlider">
+                  <property name="maximum">
+                   <number>100</number>
+                  </property>
+                  <property name="value">
+                   <number>50</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Orientation::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="image4RightSlider">
+                  <property name="maximum">
+                   <number>100</number>
+                  </property>
+                  <property name="value">
+                   <number>50</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Orientation::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="slidersAxisLayout">
+                <item>
+                 <widget class="QLabel" name="leftSlidersAxis">
+                  <property name="text">
+                   <string>              0          10          20          30          40</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="rightSlidersAxis">
+                  <property name="text">
+                   <string>      0          10          20          30          40</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
             </item>
             <item>
-             <widget class="QComboBox" name="compsSelectionComboBox">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>1</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="placeholderText">
-               <string/>
-              </property>
+             <layout class="QVBoxLayout" name="ComboBoxSpace" stretch="0,0,0,0">
               <item>
-               <property name="text">
-                <string>Magnitude and Phase</string>
-               </property>
+               <widget class="QLabel" name="mixingComboBoxLabel">
+                <property name="text">
+                 <string>Mixing Mode</string>
+                </property>
+               </widget>
               </item>
               <item>
-               <property name="text">
-                <string>Real and Imaginary</string>
-               </property>
+               <widget class="QComboBox" name="compsSelectionComboBox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>1</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>200</width>
+                  <height>26</height>
+                 </size>
+                </property>
+                <property name="placeholderText">
+                 <string/>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Magnitude and Phase</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Real and Imaginary</string>
+                 </property>
+                </item>
+               </widget>
               </item>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="outputComboBoxLabel">
-              <property name="text">
-               <string>Selected Output Port</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="outputSelectionComboBox">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>1</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="placeholderText">
-               <string/>
-              </property>
               <item>
-               <property name="text">
-                <string>Output View Port 1</string>
-               </property>
+               <widget class="QLabel" name="outputComboBoxLabel">
+                <property name="text">
+                 <string>Output Port</string>
+                </property>
+               </widget>
               </item>
               <item>
-               <property name="text">
-                <string>Output View Port 2</string>
-               </property>
+               <widget class="QComboBox" name="outputSelectionComboBox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>1</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="placeholderText">
+                 <string/>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Output View Port 1</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Output View Port 2</string>
+                 </property>
+                </item>
+               </widget>
               </item>
-             </widget>
+             </layout>
             </item>
            </layout>
           </item>
           <item>
-           <layout class="QVBoxLayout" name="slidersSpace" stretch="1,7,7,7,7,1">
-            <property name="spacing">
-             <number>15</number>
+           <widget class="QWidget" name="horizontalWidget_2" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>23</height>
+             </size>
             </property>
-            <item>
-             <layout class="QHBoxLayout" name="slidersLabelLayout" stretch="0,0">
-              <item>
-               <widget class="QLabel" name="leftSlidersLabel">
-                <property name="text">
-                 <string>Magnitude</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignmentFlag::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="rightSlidersLabel">
-                <property name="text">
-                 <string>Phase</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignmentFlag::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="image1SlidersLayout" stretch="0,0,0">
-              <property name="spacing">
-               <number>6</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="image1SlidersLabel">
-                <property name="text">
-                 <string>image1</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignmentFlag::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSlider" name="image1LeftSlider">
-                <property name="maximum">
-                 <number>99</number>
-                </property>
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="tickPosition">
-                 <enum>QSlider::TickPosition::NoTicks</enum>
-                </property>
-                <property name="tickInterval">
-                 <number>0</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSlider" name="image1RightSlider">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="image2SlidersLayout">
-              <item>
-               <widget class="QLabel" name="image2Sliderslabel">
-                <property name="text">
-                 <string>image2</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignmentFlag::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSlider" name="image2LeftSlider">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSlider" name="image2RightSlider">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="image3SlidersLayout">
-              <item>
-               <widget class="QLabel" name="image3SlidersLabel">
-                <property name="text">
-                 <string>image3</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignmentFlag::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSlider" name="image3RightSlider">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSlider" name="image3LeftSlider">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="image4SlidersLayout">
-              <item>
-               <widget class="QLabel" name="image4SlidersLabel">
-                <property name="text">
-                 <string>image4</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignmentFlag::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSlider" name="image4LeftSlider">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSlider" name="image4RightSlider">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="slidersAxisLayout">
-              <item>
-               <widget class="QLabel" name="leftSlidersAxis">
-                <property name="text">
-                 <string>              0          10          20          30          40</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="rightSlidersAxis">
-                <property name="text">
-                 <string>      0          10          20          30          40</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QProgressBar" name="mixingProgressBar">
+               <property name="value">
+                <number>0</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="mixBtn">
+               <property name="minimumSize">
+                <size>
+                 <width>195</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>Mix Images</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </item>
          </layout>
         </widget>

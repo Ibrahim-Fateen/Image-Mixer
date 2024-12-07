@@ -1,6 +1,6 @@
 from PySide6.QtCore import QFile
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QMainWindow, QWidget
+from PySide6.QtWidgets import QMainWindow, QWidget, QPushButton, QProgressBar, QLabel, QComboBox, QSlider
 
 from Image import Image
 from Viewport import ViewPort
@@ -46,12 +46,55 @@ class ImageMixerApp(QMainWindow):
             self.outputViewPorts[i].set_image(output_image_placeholder)
 
         mixer = Mixer([viewport.image for viewport in self.inputViewPorts])
-        output_image = mixer.mix_mag_phase([
-            {"Magnitude": 1, "Phase": 1.0},
-            {"Magnitude": 0.0, "Phase": 0.0},
-            {"Magnitude": 0.0, "Phase": 0.0},
-            {"Magnitude": 0.0, "Phase": 0.0}
-        ])
+        output_image = mixer.mix_mag_phase([[0.5, 0.5], [0.5, 0.5], [0.5, 0.5], [0.5, 0.5]])
         self.outputViewPorts[0].set_image(output_image)
 
-        # self.mixBtn = self.ui.findChild(QPushButton, "mixBtn")
+        self.mixBtn = self.ui.findChild(QPushButton, "mixBtn")
+        self.mixingProgressBar = self.ui.findChild(QProgressBar, "mixingProgressBar")
+        self.leftSlidersLabel = self.ui.findChild(QLabel, "leftSlidersLabel")
+        self.rightSlidersLabel = self.ui.findChild(QLabel, "rightSlidersLabel")
+        self.mixingModeCombo = self.ui.findChild(QComboBox, "compsSelectionComboBox")
+
+        self.mixBtn.clicked.connect(self.mix_images)
+        self.mixingModeCombo.currentIndexChanged.connect(self.update_sliders_labels)
+
+    def update_sliders_labels(self):
+        selected_index = self.mixingModeCombo.currentIndex()
+        if selected_index == 0:
+            self.leftSlidersLabel.setText("Magnitude")
+            self.rightSlidersLabel.setText("Phase")
+        else:
+            self.leftSlidersLabel.setText("Real")
+            self.rightSlidersLabel.setText("Imaginary")
+
+    def mix_images(self):
+        self.mixingProgressBar.setValue(0)
+        region = None
+        if self.region_select_manager.is_selecting:
+            region_rect = self.inputViewPorts[0].region_selector.region_rect
+            x, y, w, h = region_rect.getRect()
+            inside_is_selected = self.region_select_manager.inside_selected
+            region = (inside_is_selected, x, y, w, h)
+        mixer = Mixer([viewport.image for viewport in self.inputViewPorts], region)
+
+        def update_progress_bar():
+            self.mixingProgressBar.setValue(self.mixingProgressBar.value() + 25)
+
+        mixer.first_component_mixed.connect(update_progress_bar)
+        mixer.second_component_mixed.connect(update_progress_bar)
+        mixer.total_ft_found.connect(update_progress_bar)
+        mixer.ifft_computed.connect(update_progress_bar)
+
+        output_index = self.ui.findChild(QComboBox, "outputSelectionComboBox").currentIndex()
+
+        weights = self.__get_weights()
+        output_image = mixer.mix_mag_phase(weights) if self.mixingModeCombo.currentIndex() == 0 else mixer.mix_real_imaginary(weights)
+        self.outputViewPorts[output_index].set_image(output_image)
+
+    def __get_weights(self):
+        weights = []
+        for i in range(4):
+            left_weight = self.ui.findChild(QSlider, f"image{i+1}LeftSlider").value() / 100
+            right_weight = self.ui.findChild(QSlider, f"image{i+1}RightSlider").value() / 100
+            weights.append([left_weight, right_weight])
+        return weights

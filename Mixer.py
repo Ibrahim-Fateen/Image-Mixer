@@ -1,25 +1,33 @@
+from PySide6.QtCore import QObject, Signal
+
 import numpy as np
 from Image import Image
 
 
-class Mixer:
+class Mixer(QObject):
+    first_component_mixed = Signal()
+    second_component_mixed = Signal()
+    total_ft_found = Signal()
+    ifft_computed = Signal()
+
     def __init__(self, images: [Image], region=None):
         """
         :param images:
         :param region: a tuple containing (inside_is_selected boolean, (x, y, width, height))
         """
+        super().__init__()
         self.images = images
         self.mask = self.__get_mask(region)
 
     def __get_mask(self, region):
-        mask = np.ones_like(self.images[0])
+        mask = np.ones_like(self.images[0].image_data)
         if region:
             inside_is_selected, x, y, w, h = region
             if inside_is_selected:
-                mask = np.zeros_like(self.images[0])
+                mask = np.zeros_like(self.images[0].image_data)
                 mask[y:y + h, x:x + w] = 1
             else:
-                mask = np.ones_like(self.images[0])
+                mask = np.ones_like(self.images[0].image_data)
                 mask[y:y + h, x:x + w] = 0
         return mask
 
@@ -29,13 +37,18 @@ class Mixer:
             eg: [{"Magnitude": 0.3, "Phase": 0.7}, {"Magnitude": 0.7, "Phase": 0.3}]
         :return: Image
         """
-        mag_weights = [weight["Magnitude"] for weight in weights]
-        phase_weights = [weight["Phase"] for weight in weights]
+        mag_weights = [weight[0] for weight in weights]
+        phase_weights = [weight[1] for weight in weights]
         mixed_magnitude = self.__mix_mag(mag_weights)
+        self.first_component_mixed.emit()
         mixed_phase = self.__mix_phase(phase_weights)
+        self.second_component_mixed.emit()
         complex_ft = mixed_magnitude * np.exp(1j * mixed_phase)
         complex_ft = np.fft.ifftshift(complex_ft)
-        return Image.from_foureir_domain(complex_ft)
+        self.total_ft_found.emit()
+        image = Image.from_foureir_domain(complex_ft)
+        self.ifft_computed.emit()
+        return image
 
     def mix_real_imaginary(self, weights):
         pass

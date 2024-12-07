@@ -24,7 +24,7 @@ class RegionSelect(QWidget):
         self.region_rect = QRect(parent.size().width() // 2 - init_region_size // 2,
                                  parent.size().height() // 2 - init_region_size // 2,
                                  init_region_size, init_region_size)
-        self.inside_selected = False
+        self.inside_selected = True
         self.selected_handle = None
         self.last_mouse_pos = None
 
@@ -128,7 +128,7 @@ class RegionSelectManager(QObject):
         super().__init__()
         self.listeners = []
         self.is_selecting = False
-        self.inside_selected = False
+        self.inside_selected = True
 
     def add_listener(self, listener: RegionSelect):
         self.listeners.append(listener)
