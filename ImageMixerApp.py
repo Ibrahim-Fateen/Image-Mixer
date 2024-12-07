@@ -53,3 +53,5 @@ class ImageMixerApp(QMainWindow):
             {"Magnitude": 0.0, "Phase": 0.0}
         ])
         self.outputViewPorts[0].set_image(output_image)
+
+        # self.mixBtn = self.ui.findChild(QPushButton, "mixBtn")

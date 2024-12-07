@@ -65,7 +65,7 @@ class Image:
         (self - mean) * contrast + mean + brightness
 
     def __add__(self, other):
-        self.modified_image_data = np.clip(self.image_data + other, 0, 255).astype(np.uint8)
+        self.modified_image_data = (self.image_data + other).astype(np.uint8)
         # assume no clipping occurred
         # add 2 * pi * other * delta(w)  (DC component) to the ft
         dc_index = tuple(x // 2 for x in self.size)
@@ -73,7 +73,7 @@ class Image:
         return self
 
     def __sub__(self, other):
-        self.modified_image_data = np.clip(self.image_data - other, 0, 255).astype(np.uint8)
+        self.modified_image_data = (self.image_data - other).astype(np.uint8)
         # assume no clipping occurred
         # subtract 2 * pi * other * delta(w)  (DC component) to the ft
         dc_index = tuple(x // 2 for x in self.size)
@@ -81,9 +81,12 @@ class Image:
         return self
 
     def __mul__(self, other):
-        self.modified_image_data = np.clip(self.image_data * other, 0, 255).astype(np.uint8)
+        self.modified_image_data = (self.image_data * other).astype(np.uint8)
         self.modified_ft *= other
         return self
+
+    def get_image_data(self):
+        return np.clip(self.modified_image_data, 0, 255).astype(np.uint8)
 
     @staticmethod
     def from_file(file_path):

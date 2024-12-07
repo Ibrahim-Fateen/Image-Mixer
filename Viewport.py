@@ -1,23 +1,27 @@
 import numpy as np
 from PySide6.QtCore import Qt, QSize
 from PySide6.QtGui import QImage, QPixmap, QIcon
-from PySide6.QtWidgets import QWidget, QGridLayout, QLabel, QComboBox, QFileDialog, QPushButton
+from PySide6.QtWidgets import QGridLayout, QLabel, QComboBox, QFileDialog, QPushButton, QFrame
 
 from Image import Image
 from RegionSelect import RegionSelect
 
 
-class ViewPort(QWidget):
-    image_size = (220, 220)
+class ViewPort(QFrame):
+    image_size = QSize(220, 220)
     max_brightness = 50
     min_brightness = -50
     brightness_step = -1
-    max_contrast = 2
+    max_contrast = 5
     min_contrast = 0.1
     contrast_step = 0.1
 
     def __init__(self, is_input=True, parent=None):
         super().__init__(parent)
+        self.setFrameStyle(QFrame.Shape.Panel)
+        self.setFrameShadow(QFrame.Shadow.Sunken)
+        self.setLineWidth(1)
+        self.setMidLineWidth(0)
         self.image = None
         self.brightness = 0
         self.contrast = 1
@@ -29,8 +33,14 @@ class ViewPort(QWidget):
         self.layout = QGridLayout()
         self.setLayout(self.layout)
 
+        self.layout.setColumnStretch(6, 1)
+        self.layout.setRowStretch(0, 1)
+        self.layout.setRowStretch(1, 0)
+
         self.image_label = QLabel()
-        self.image_label.setMaximumSize(*ViewPort.image_size)
+        self.image_label.setMaximumSize(ViewPort.image_size)
+        # self.image_label.setMinimumSize((ViewPort.image_size - QSize(30, 30)))
+        self.image_label.setMinimumSize(ViewPort.image_size)
         if is_input:
             self.image_label.setMouseTracking(True)
             self.image_label.mousePressEvent = self.start_drag
@@ -39,7 +49,9 @@ class ViewPort(QWidget):
         self.layout.addWidget(self.image_label, 0, 0, 1, 6)
 
         self.ft_label = QLabel()
-        self.ft_label.setMaximumSize(*ViewPort.image_size)
+        self.ft_label.setMaximumSize(ViewPort.image_size)
+        # self.ft_label.setMinimumSize(ViewPort.image_size - QSize(30, 30))
+        self.ft_label.setMinimumSize(ViewPort.image_size)
         self.layout.addWidget(self.ft_label, 0, 6, 1, 6)
 
         self.component_combo = QComboBox()
@@ -121,7 +133,7 @@ class ViewPort(QWidget):
     def update_img_label(self):
         height, width = self.image.size
         bytes_per_line = width
-        q_img = QImage(self.image.modified_image_data.data, width, height, bytes_per_line, QImage.Format_Grayscale8)
+        q_img = QImage(self.image.get_image_data().data, width, height, bytes_per_line, QImage.Format_Grayscale8)
         self.image_label.setPixmap(QPixmap.fromImage(q_img).scaled(
             self.image_label.size(),
             Qt.KeepAspectRatio,
@@ -134,7 +146,7 @@ class ViewPort(QWidget):
 
     def set_image(self, image):
         self.image = image
-        self.image.resize(ViewPort.image_size)
+        self.image.resize((self.image_label.size().width(), self.image_label.size().height()))
         self.brightness = 0
         self.contrast = 1
         self.image.changeBrightnessContrast(self.brightness, self.contrast)

@@ -37,7 +37,7 @@ class Mixer:
         complex_ft = np.fft.ifftshift(complex_ft)
         return Image.from_foureir_domain(complex_ft)
 
-    def mix_real_imaginary(self, ):
+    def mix_real_imaginary(self, weights):
         pass
 
     def __mix_phase(self, weights):
