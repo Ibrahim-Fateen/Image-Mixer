@@ -33,12 +33,13 @@ class Mixer(QObject):
 
     def mix_mag_phase(self, weights: []):
         """
-        :param weights: A list of weights dict for each image.
-            eg: [{"Magnitude": 0.3, "Phase": 0.7}, {"Magnitude": 0.7, "Phase": 0.3}]
+        :param weights: A list of weights tuples for each image.
+        The first element of the tuple is the magnitude weight and the second element is the phase weight.
+            eg: [(0.3, 0.7), (0.7, 0.3)]
         :return: Image
         """
-        mag_weights = [weight[0] for weight in weights]
-        phase_weights = [weight[1] for weight in weights]
+        mag_weights = self.__get_adjusted_weights([weight[0] for weight in weights])
+        phase_weights = self.__get_adjusted_weights([weight[1] for weight in weights])
         mixed_magnitude = self.__mix_mag(mag_weights)
         self.first_component_mixed.emit()
         mixed_phase = self.__mix_phase(phase_weights)
@@ -51,7 +52,24 @@ class Mixer(QObject):
         return image
 
     def mix_real_imaginary(self, weights):
-        pass
+        """
+        :param weights: A list of weights tuples for each image.
+        The first element of the tuple is the real weight and the second element is the imaginary weight.
+            eg: [(0.3, 0.7), (0.7, 0.3)]
+        :return: Image
+        """
+        real_weights = self.__get_adjusted_weights([weight[0] for weight in weights])
+        imaginary_weights = self.__get_adjusted_weights([weight[1] for weight in weights])
+        mixed_real = self.__mix_real(real_weights)
+        self.first_component_mixed.emit()
+        mixed_imaginary = self.__mix_imaginary(imaginary_weights)
+        self.second_component_mixed.emit()
+        complex_ft = mixed_real + 1j * mixed_imaginary
+        complex_ft = np.fft.ifftshift(complex_ft)
+        self.total_ft_found.emit()
+        image = Image.from_foureir_domain(complex_ft)
+        self.ifft_computed.emit()
+        return image
 
     def __mix_phase(self, weights):
         """
@@ -72,7 +90,20 @@ class Mixer(QObject):
         return mixed_magnitude
 
     def __mix_real(self, weights):
-        pass
+        real_parts = [image.get_real_part() * self.mask for image in self.images]
+        mixed_real = np.zeros_like(real_parts[0])
+        for real, weight in zip(real_parts, weights):
+            mixed_real += real * weight
+        return mixed_real
 
     def __mix_imaginary(self, weights):
-        pass
+        imaginary_parts = [image.get_imaginary_part() * self.mask for image in self.images]
+        mixed_imaginary = np.zeros_like(imaginary_parts[0])
+        for imaginary, weight in zip(imaginary_parts, weights):
+            mixed_imaginary += imaginary * weight
+        return mixed_imaginary
+
+    @staticmethod
+    def __get_adjusted_weights(weights):
+        total = sum(weights)
+        return [weight / total for weight in weights]

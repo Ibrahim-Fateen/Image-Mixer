@@ -47,6 +47,16 @@ class Image:
     def get_real_part(self):
         return self.modified_ft.real
 
+    def get_log_real(self):
+        data = self.get_real_part()
+        data = data - data.min()
+        return np.log1p(data)
+
+    def get_log_imaginary(self):
+        data = self.get_imaginary_part()
+        data = data - data.min()
+        return np.log1p(data)
+
     def get_imaginary_part(self):
         return self.modified_ft.imag
 
