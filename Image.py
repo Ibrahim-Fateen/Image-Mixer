@@ -1,6 +1,10 @@
 import numpy as np
 from PIL import Image as PILImage
 
+from logger_config import setup_logger
+
+logger = setup_logger(__name__)
+
 
 class Image:
     def __init__(self, image_data):

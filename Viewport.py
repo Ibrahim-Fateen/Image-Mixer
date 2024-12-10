@@ -5,6 +5,9 @@ from PySide6.QtWidgets import QGridLayout, QLabel, QComboBox, QFileDialog, QPush
 
 from Image import Image
 from RegionSelect import RegionSelect
+from logger_config import setup_logger
+
+logger = setup_logger(__name__)
 
 
 class ViewPort(QFrame):

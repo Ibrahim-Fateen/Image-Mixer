@@ -5,8 +5,7 @@ from PySide6.QtWidgets import QMainWindow, QWidget, QPushButton, QProgressBar, Q
 from Image import Image
 from Viewport import ViewPort
 from RegionSelect import RegionSelectManager
-from Mixer import Mixer
-from MixingThread import MixingThread
+from Mixer import Mixer, MixingThread
 
 
 class ImageMixerApp(QMainWindow):

@@ -1,7 +1,10 @@
-from PySide6.QtCore import QObject, Signal
+from PySide6.QtCore import QObject, Signal, QThread
 
 import numpy as np
 from Image import Image
+from logger_config import setup_logger
+
+logger = setup_logger(__name__)
 
 
 class Mixer(QObject):
@@ -23,6 +26,9 @@ class Mixer(QObject):
         mask = np.ones_like(self.images[0].image_data)
         if region:
             inside_is_selected, x, y, w, h = region
+            logger.debug(f"Region received as (x, y, w, h): {x}, {y}, {w}, {h}")
+            part_selected = "low frequencies" if inside_is_selected else "high frequencies"
+            logger.debug(f"Region selected: {part_selected}")
             if inside_is_selected:
                 mask = np.zeros_like(self.images[0].image_data)
                 mask[y:y + h, x:x + w] = 1
@@ -42,13 +48,17 @@ class Mixer(QObject):
         phase_weights = self.__get_adjusted_weights([weight[1] for weight in weights])
         mixed_magnitude = self.__mix_mag(mag_weights)
         self.first_component_mixed.emit()
+        logger.info("Magnitude mixed")
         mixed_phase = self.__mix_phase(phase_weights)
         self.second_component_mixed.emit()
+        logger.info("Phase mixed")
         complex_ft = mixed_magnitude * np.exp(1j * mixed_phase)
         complex_ft = np.fft.ifftshift(complex_ft)
         self.total_ft_found.emit()
+        logger.info("Resultant FT found")
         image = Image.from_foureir_domain(complex_ft)
         self.ifft_computed.emit()
+        logger.info("IFFT computed")
         return image
 
     def mix_real_imaginary(self, weights):
@@ -62,13 +72,17 @@ class Mixer(QObject):
         imaginary_weights = self.__get_adjusted_weights([weight[1] for weight in weights])
         mixed_real = self.__mix_real(real_weights)
         self.first_component_mixed.emit()
+        logger.info("Real parts mixed")
         mixed_imaginary = self.__mix_imaginary(imaginary_weights)
         self.second_component_mixed.emit()
+        logger.info("Imaginary parts mixed")
         complex_ft = mixed_real + 1j * mixed_imaginary
         complex_ft = np.fft.ifftshift(complex_ft)
         self.total_ft_found.emit()
+        logger.info("Resultant FT found")
         image = Image.from_foureir_domain(complex_ft)
         self.ifft_computed.emit()
+        logger.info("IFFT computed")
         return image
 
     def __mix_phase(self, weights):
@@ -107,3 +121,24 @@ class Mixer(QObject):
     def __get_adjusted_weights(weights):
         total = sum(weights)
         return [weight / total for weight in weights]
+
+
+class MixingThread(QThread):
+    result_ready = Signal(object)
+    error_occurred = Signal(str)
+
+    def __init__(self, mixer, weights, mode):
+        super().__init__()
+        self.mixer = mixer
+        self.weights = weights
+        self.mode = mode
+
+    def run(self):
+        try:
+            if self.mode == 0:
+                result_image = self.mixer.mix_mag_phase(self.weights)
+            else:
+                result_image = self.mixer.mix_real_imaginary(self.weights)
+            self.result_ready.emit(result_image)
+        except Exception as e:
+            self.error_occurred.emit(str(e))

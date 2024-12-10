@@ -2,6 +2,10 @@ from PySide6.QtCore import QRect, Qt, QPoint, Signal, QObject
 from PySide6.QtGui import QPainter, QColor
 from PySide6.QtWidgets import QWidget
 
+from logger_config import setup_logger
+
+logger = setup_logger(__name__)
+
 
 class RegionSelect(QWidget):
     region_changed = Signal(QRect)
