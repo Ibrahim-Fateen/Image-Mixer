@@ -74,12 +74,34 @@ class Image:
         return np.angle(self.modified_ft)
 
     def changeBrightnessContrast(self, brightness, contrast):
-        mean = np.mean(self.image_data)
         self.modified_ft = self.ft.copy()
-        (self - mean) * contrast + mean + brightness
+        self.modified_image_data = self.image_data.copy()
+        self.change_brightness(brightness)
+        self.change_contrast(contrast)
+
+    def change_brightness(self, brightness):
+        logger.info(f"Changing brightness by {brightness}")
+        logger.debug(f"Maximum before change: {self.modified_image_data.max()}")
+        logger.debug(f"Minimum before change: {self.modified_image_data.min()}")
+        self + brightness
+        logger.debug(f"Maximum before clipping: {self.modified_image_data.max()}")
+        logger.debug(f"Minimum before clipping: {self.modified_image_data.min()}")
+        self.modified_image_data = np.clip(self.modified_image_data, 0, 255).astype(np.uint8)
+        logger.debug(f"Maximum after clipping: {self.modified_image_data.max()}")
+        logger.debug(f"Minimum after clipping: {self.modified_image_data.min()}")
+
+    def change_contrast(self, contrast):
+        mean = np.mean(self.modified_image_data)
+        (self - mean) * contrast + mean
+        logger.info(f"Changed contrast by {contrast}")
+        # logger.debug(f"Maximum before clipping: {self.modified_image_data.max()}")
+        # logger.debug(f"Minimum before clipping: {self.modified_image_data.min()}")
+        self.modified_image_data = np.clip(self.modified_image_data, 0, 255).astype(np.uint8)
+        # logger.debug(f"Maximum after clipping: {self.modified_image_data.max()}")
+        # logger.debug(f"Minimum after clipping: {self.modified_image_data.min()}")
 
     def __add__(self, other):
-        self.modified_image_data = (self.image_data + other).astype(np.uint8)
+        self.modified_image_data = self.modified_image_data + other
         # assume no clipping occurred
         # add 2 * pi * other * delta(w)  (DC component) to the ft
         dc_index = tuple(x // 2 for x in self.size)
@@ -87,7 +109,7 @@ class Image:
         return self
 
     def __sub__(self, other):
-        self.modified_image_data = (self.image_data - other).astype(np.uint8)
+        self.modified_image_data = self.modified_image_data - other
         # assume no clipping occurred
         # subtract 2 * pi * other * delta(w)  (DC component) to the ft
         dc_index = tuple(x // 2 for x in self.size)
@@ -95,7 +117,7 @@ class Image:
         return self
 
     def __mul__(self, other):
-        self.modified_image_data = (self.image_data * other).astype(np.uint8)
+        self.modified_image_data = self.modified_image_data * other
         self.modified_ft *= other
         return self
 

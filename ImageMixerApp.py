@@ -26,8 +26,8 @@ class ImageMixerApp(QMainWindow):
 
         inputViewportWidgets = [self.ui.findChild(QWidget, f"inputViewPort{i+1}") for i in range(4)]
         self.inputViewPorts = [
-            ViewPort(is_input=True, parent=widget)
-            for widget in inputViewportWidgets
+            ViewPort(is_input=True, index=i, parent=widget)
+            for i, widget in enumerate(inputViewportWidgets)
         ]
         for viewport in self.inputViewPorts:
             self.region_select_manager.add_listener(viewport.region_selector)

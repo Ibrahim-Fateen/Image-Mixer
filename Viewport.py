@@ -19,7 +19,7 @@ class ViewPort(QFrame):
     min_contrast = 0.1
     contrast_step = 0.1
 
-    def __init__(self, is_input=True, parent=None):
+    def __init__(self, is_input=True, index=0, parent=None):
         super().__init__(parent)
         self.setFrameStyle(QFrame.Shape.Panel)
         self.setFrameShadow(QFrame.Shadow.Sunken)
@@ -57,14 +57,24 @@ class ViewPort(QFrame):
         self.ft_label.setMinimumSize(ViewPort.image_size)
         self.layout.addWidget(self.ft_label, 0, 6, 1, 6)
 
+        if is_input:
+            self.reset_edits_btn = QPushButton()
+            self.reset_edits_btn.setIcon(QIcon("UI/reset.png"))
+            self.reset_edits_btn.setIconSize(QSize(20, 20))
+            self.reset_edits_btn.clicked.connect(self.reset_edits)
+            self.layout.addWidget(self.reset_edits_btn, 1, 0, 1, 1)
+
+            self.image_title = QLabel(f"Image {index + 1}")
+            self.layout.addWidget(self.image_title, 1, 1, 1, 5)
+
         self.component_combo = QComboBox()
         self.component_combo.addItems(["Magnitude", "Phase", "Real", "Imaginary"])
         self.component_combo.currentIndexChanged.connect(self.update_ft_label)
         if is_input:
-            col_span = 5
+            combo_box_col_span = 5
         else:
-            col_span = 6
-        self.layout.addWidget(self.component_combo, 1, 6, 1, col_span)
+            combo_box_col_span = 6
+        self.layout.addWidget(self.component_combo, 1, 6, 1, combo_box_col_span)
 
         if is_input:
             self.region_select_btn = QPushButton()
@@ -154,3 +164,10 @@ class ViewPort(QFrame):
         self.contrast = 1
         self.image.changeBrightnessContrast(self.brightness, self.contrast)
         self.update_labels()
+
+    def reset_edits(self):
+        self.brightness = 0
+        self.contrast = 1
+        self.image.changeBrightnessContrast(self.brightness, self.contrast)
+        self.update_labels()
+        logger.info("Image edits reset")
