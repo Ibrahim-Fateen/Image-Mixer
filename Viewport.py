@@ -42,7 +42,6 @@ class ViewPort(QFrame):
 
         self.image_label = QLabel()
         self.image_label.setMaximumSize(ViewPort.image_size)
-        # self.image_label.setMinimumSize((ViewPort.image_size - QSize(30, 30)))
         self.image_label.setMinimumSize(ViewPort.image_size)
         if is_input:
             self.image_label.setMouseTracking(True)
@@ -53,7 +52,6 @@ class ViewPort(QFrame):
 
         self.ft_label = QLabel()
         self.ft_label.setMaximumSize(ViewPort.image_size)
-        # self.ft_label.setMinimumSize(ViewPort.image_size - QSize(30, 30))
         self.ft_label.setMinimumSize(ViewPort.image_size)
         self.layout.addWidget(self.ft_label, 0, 6, 1, 6)
 

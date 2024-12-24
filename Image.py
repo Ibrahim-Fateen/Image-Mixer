@@ -19,7 +19,6 @@ class Image:
         """
         Resize the image to a new size
         :param new_size: (width, height)
-        :return:
         """
         self.image_data = np.array(PILImage.fromarray(self.image_data).resize(new_size))
         self.modified_image_data = self.image_data.copy()
