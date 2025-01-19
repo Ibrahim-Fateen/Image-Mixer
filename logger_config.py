@@ -1,9 +1,14 @@
 import logging
 from datetime import datetime
+import os
 
 
 def setup_logger(name, log_dir='logs/', level=logging.DEBUG):
     """Setup a logger for a specific module or class."""
+    # create log_dir if it doesn't exist
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+
     # Create logger
     logger = logging.getLogger(name)
     logger.setLevel(level)
