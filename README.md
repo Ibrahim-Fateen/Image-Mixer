@@ -2,14 +2,14 @@
 
 **A Python application built with PyQt to demonstrate the effects of mixing magnitude and phase from different images.**
 
+## Demo
+https://github.com/user-attachments/assets/f8c31c53-1647-41a3-92d6-d6438891e134
+
 ## Features
 - 4 viewports to load images and view their Fourier Transforms
 - Contrast and brightness adjustments for each viewport
 - Mixing with either magnitude and phase, or real and imaginary parts
 - A region selector to use either high or low frequencies
-
-## Demo
-https://github.com/user-attachments/assets/8b62efe9-3e9a-4d44-9d03-510f1caa7445
 
 ## Installation
 
