@@ -1,4 +1,4 @@
-# Magnitude and Phase Mixing Viewer
+# Image Mixing App
 
 **A Python application built with PyQt to demonstrate the effects of mixing magnitude and phase from different images.**
 
