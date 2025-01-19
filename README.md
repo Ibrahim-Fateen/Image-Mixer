@@ -7,9 +7,13 @@ https://github.com/user-attachments/assets/f8c31c53-1647-41a3-92d6-d6438891e134
 
 ## Features
 - 4 viewports to load images and view their Fourier Transforms
+     ![Loading and FTs](https://github.com/user-attachments/assets/52a4360e-fe75-4a00-a64d-1667797239f2)
 - Contrast and brightness adjustments for each viewport
+     ![Contrast and Brightness](https://github.com/user-attachments/assets/c94d5780-99e6-476b-b0b5-113ce9b08ffa)
 - Mixing with either magnitude and phase, or real and imaginary parts
+     ![Mixing](https://github.com/user-attachments/assets/b7ffc5c5-9c19-4a8e-bbba-e06f6a5010a7)
 - A region selector to use either high or low frequencies
+     ![Region Selector](https://github.com/user-attachments/assets/b097f870-9e4b-438a-8ca3-00ad00d63455)
 
 ## Installation
 
