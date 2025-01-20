@@ -43,4 +43,4 @@ Special thanks to everyone who has contributed to this project!
 | [<img src="https://github.com/salahmohamed03.png" width="20">](https://github.com/salahmohamed03) | [Salah Mohamed](https://github.com/salahmohamed03) |
 
 ### Submitted to
-Dr. Tamer Basha & Eng. 
+Dr. Tamer Basha & Eng. Omar Aldaw
